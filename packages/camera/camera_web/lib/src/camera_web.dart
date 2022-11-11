@@ -96,21 +96,23 @@ class CameraPlugin extends CameraPlatform {
         );
       }
 
-      // Request video and audio permissions.
-      final html.MediaStream cameraStream =
-          await _cameraService.getMediaStreamForOptions(
-        const CameraOptions(
-          audio: AudioConstraints(
-            enabled: true,
-            echoCancellation: false,
+      try {
+        // Request video and audio permissions.
+        final html.MediaStream cameraStream =
+            await _cameraService.getMediaStreamForOptions(
+          const CameraOptions(
+            audio: AudioConstraints(
+              enabled: true,
+              echoCancellation: false,
+            ),
           ),
-        ),
-      );
+        );
 
-      // Release the camera stream used to request video and audio permissions.
-      cameraStream
-          .getVideoTracks()
-          .forEach((html.MediaStreamTrack videoTrack) => videoTrack.stop());
+        // Release the camera stream used to request video and audio permissions.
+        cameraStream
+            .getVideoTracks()
+            .forEach((html.MediaStreamTrack videoTrack) => videoTrack.stop());
+      } catch (_) {}
 
       // Request available media devices.
       final List<dynamic> devices = await mediaDevices.enumerateDevices();
