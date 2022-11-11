@@ -58,13 +58,24 @@ class CameraOptions {
 class AudioConstraints {
   /// Creates a new instance of [AudioConstraints]
   /// with the given [enabled] constraint.
-  const AudioConstraints({this.enabled = false});
+  const AudioConstraints({this.enabled = false, this.echoCancellation});
 
   /// Whether the audio track should be enabled.
   final bool enabled;
 
+  /// Whether the echoCancellation enabled.
+  final bool? echoCancellation;
+
   /// Converts the current instance to a Map.
-  Object toJson() => enabled;
+  Object toJson() {
+    if (echoCancellation == null) {
+      return enabled;
+    }
+    return <String, dynamic>{
+      'enabled': enabled,
+      'echoCancellation': echoCancellation,
+    };
+  }
 
   @override
   bool operator ==(Object other) {
